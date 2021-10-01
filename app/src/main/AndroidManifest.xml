@@ -12,11 +12,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.SunnyWeather">
+        <activity android:name=".ui.weather.WeatherActivity"></activity>
         <activity
             android:name=".SunnyWeatherApplication"
             android:label="@string/title_activity_sunny_weather_application"
             android:theme="@style/Theme.SunnyWeather.NoActionBar"
-            tools:ignore="Instantiatable"></activity>
+            tools:ignore="Instantiatable" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -9,7 +9,7 @@ import android.os.Bundle
 class SunnyWeatherApplication : Application() {
 
     companion object {
-        const val TOKEN = "3355a8240f862745cbdbc1467fb37fc4"  // gaode token
+        const val TOKEN = "4a835315daf23bf05683af957d7045a0"  // gaode token
         @SuppressLint("StaticFieldLeak")
         lateinit var context: Context
     }

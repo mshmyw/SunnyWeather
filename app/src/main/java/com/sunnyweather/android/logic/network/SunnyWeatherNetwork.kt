@@ -14,6 +14,9 @@ object SunnyWeatherNetwork {
 
     suspend fun searchPlaces(query: String) = placeService.searchPlaces(query).await()
 
+    private val weatherService = ServiceCreator.create(WeatherService::class.java)
+    suspend fun getRealtimeWeather(query: String) = weatherService.getRealtimeWeather(query).await()
+
     private suspend fun <T> Call<T>.await(): T {
         return suspendCoroutine { continuation ->
         enqueue(object : Callback<T> {

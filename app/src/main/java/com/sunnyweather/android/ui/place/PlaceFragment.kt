@@ -2,6 +2,7 @@ package com.sunnyweather.android.ui.place
 
 import android.os.Bundle
 import android.text.Editable
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -16,7 +17,8 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
-class PlaceFragment : Fragment() {
+class
+PlaceFragment : Fragment() {
 
     val viewModel by lazy {
         ViewModelProviders.of(this).get(PlaceViewModel::class.java)
@@ -64,8 +66,10 @@ class PlaceFragment : Fragment() {
             result ->
             val places = result.getOrNull()
             if(places != null) {
+                Log.d("viewModel", "$places");
+
                 if (recyclerView != null) {
-                    recyclerView.visibility = View.GONE
+                    recyclerView.visibility = View.VISIBLE
                 }
                 requireActivity().findViewById<ImageView>(R.id.bgImageView).visibility = View.GONE
                 viewModel.placeList.clear()
