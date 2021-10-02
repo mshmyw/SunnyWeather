@@ -1,5 +1,6 @@
 package com.sunnyweather.android.ui.place
 
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.util.Log
@@ -16,6 +17,7 @@ import com.sunnyweather.android.R
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.sunnyweather.android.ui.weather.WeatherActivity
 
 class
 PlaceFragment : Fragment() {
@@ -35,6 +37,15 @@ PlaceFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        if(viewModel.isPlaceSaved()) {
+            val place = viewModel.getSavedPlace()
+            val intent = Intent(context, WeatherActivity::class.java).apply {
+                putExtra("place_name", place.city)
+            }
+            startActivity(intent)
+            activity?.finish()
+            return
+        }
 
         val layoutManager = LinearLayoutManager(activity)
         val recyclerView = activity?.findViewById<RecyclerView>(R.id.recycleView)
@@ -80,6 +91,7 @@ PlaceFragment : Fragment() {
                 result.exceptionOrNull()?.printStackTrace()
             }
         })
+
 
     }
 }

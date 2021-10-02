@@ -1,5 +1,6 @@
 package com.sunnyweather.android.ui.weather
 
+import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -9,6 +10,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.sunnyweather.android.R
 import com.sunnyweather.android.logic.model.RealtimeResponse
 import com.sunnyweather.android.logic.model.Weather
@@ -18,6 +20,7 @@ class WeatherActivity : AppCompatActivity() {
     val viewModel by lazy {
         ViewModelProviders.of(this).get(WeatherViewModel::class.java)
     }
+    @SuppressLint("ResourceAsColor")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_weather)
@@ -26,6 +29,7 @@ class WeatherActivity : AppCompatActivity() {
             viewModel.placeName = intent.getStringExtra("place_name") ?: ""
         }
 
+        val swipeRefresh = findViewById<SwipeRefreshLayout>(R.id.swipeRefresh)
         viewModel.weatherLiveData.observe(this, Observer {
             result ->
             val weather = result.getOrNull()
@@ -36,10 +40,21 @@ class WeatherActivity : AppCompatActivity() {
                     .show()
                 result.exceptionOrNull()?.printStackTrace()
             }
+            swipeRefresh.isRefreshing = false
         })
+
+        swipeRefresh.setColorSchemeColors(R.color.design_default_color_on_primary)
+        refreshWeather()
+        swipeRefresh.setOnRefreshListener {
+            refreshWeather()
+        }
         viewModel.refreshWeather(viewModel.placeName)
     }
-
+    fun refreshWeather() {
+        viewModel.refreshWeather(viewModel.placeName)
+        val swipeRefresh = findViewById<SwipeRefreshLayout>(R.id.swipeRefresh)
+        swipeRefresh.isRefreshing = true
+    }
     private fun showWeatherInfo(weather: Weather) {
         val placeName = findViewById<TextView>(R.id.placeName)
         placeName.text = viewModel.placeName
