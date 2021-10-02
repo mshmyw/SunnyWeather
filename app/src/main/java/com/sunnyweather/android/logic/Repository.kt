@@ -13,7 +13,8 @@ import kotlinx.coroutines.async
 
 object Repository {
     fun searchPlaces(query: String) = fire(Dispatchers.IO) {
-        val placeResponse = SunnyWeatherNetwork.searchPlaces("330110")
+        // gz 440100 hz 330110 zz 410100 sq 411400
+        val placeResponse = SunnyWeatherNetwork.searchPlaces(query)
     //            val placeResponse = SunnyWeatherNetwork.searchPlaces(query)
         if(placeResponse.status == "1") {
 
