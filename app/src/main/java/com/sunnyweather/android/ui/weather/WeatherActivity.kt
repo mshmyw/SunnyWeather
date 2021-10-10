@@ -16,6 +16,7 @@ import com.sunnyweather.android.R
 import com.sunnyweather.android.logic.model.RealtimeResponse
 import com.sunnyweather.android.logic.model.Weather
 import com.sunnyweather.android.logic.model.getSky
+import com.sunnyweather.android.logic.model.getSkyByWeather
 
 class WeatherActivity : AppCompatActivity() {
     val viewModel by lazy {
@@ -86,9 +87,13 @@ class WeatherActivity : AppCompatActivity() {
         val currentSky = findViewById<TextView>(R.id.currentSky)
         // TODO
         val skycon = "CLEAR_DAY"
-        currentSky.text = getSky(skycon).info
+//        currentSky.text = getSky(skycon).info
+        currentSky.text = realtime.weather
         val nowLayout = findViewById<RelativeLayout>(R.id.nowLayout)
-        nowLayout.setBackgroundResource(getSky(skycon).bg)
+        val sky = getSkyByWeather(realtime.weather)
+        nowLayout.setBackgroundResource(sky.bg)
+        val currentHumidity = findViewById<TextView>(R.id.currentHumidity)
+        currentHumidity.text = "湿度：${realtime.humidity}"
 
         // TODO 未来几天的天气数据
 

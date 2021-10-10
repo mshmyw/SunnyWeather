@@ -32,3 +32,13 @@ private val sky = mapOf(
 fun getSky(skycon: String): Sky {
     return sky[skycon] ?: sky["CLEAR_DAY"]!!
 }
+
+fun getSkyByWeather(weather: String): Sky {
+    val skyList = ArrayList(sky.values)
+    for(sky in skyList) {
+        if(sky.info.contains(weather)) {
+            return sky
+        }
+    }
+    return sky["CLEAR_DAY"]!!
+}

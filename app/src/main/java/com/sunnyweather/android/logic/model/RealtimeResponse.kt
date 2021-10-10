@@ -9,6 +9,7 @@ data class RealtimeResponse(val status: String,
                     val weather: String,
                     val temperature: String,
                     val reporttime: String,
+                    val humidity: String, // 空气湿度
                     val province: String)
 
     data class Location(val lng: String, val lat: String)
