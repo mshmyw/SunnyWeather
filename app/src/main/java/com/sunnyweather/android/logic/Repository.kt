@@ -4,6 +4,7 @@ import androidx.lifecycle.liveData
 import com.sunnyweather.android.logic.dao.PlaceDao
 import com.sunnyweather.android.logic.model.Live
 import com.sunnyweather.android.logic.model.Weather
+import com.sunnyweather.android.logic.model.getCityAdcode
 import com.sunnyweather.android.logic.network.SunnyWeatherNetwork
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.coroutineScope
@@ -14,7 +15,8 @@ import kotlinx.coroutines.async
 object Repository {
     fun searchPlaces(query: String) = fire(Dispatchers.IO) {
         // gz 440100 hz 330110 zz 410100 sq 411400
-        val placeResponse = SunnyWeatherNetwork.searchPlaces(query)
+        val cityQuery = getCityAdcode(query)
+        val placeResponse = SunnyWeatherNetwork.searchPlaces(cityQuery)
     //            val placeResponse = SunnyWeatherNetwork.searchPlaces(query)
         if(placeResponse.status == "1") {
 
