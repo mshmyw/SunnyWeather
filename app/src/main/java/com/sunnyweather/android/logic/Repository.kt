@@ -32,13 +32,20 @@ object Repository {
             val deferredRealtime = async {
                 SunnyWeatherNetwork.getRealtimeWeather(query)
             }
+            val deferredDaily = async {
+                SunnyWeatherNetwork.getDailyWeather(query)
+            }
+
             val realtimeResponse = deferredRealtime.await()
-            if(realtimeResponse.status == "1") {
-                val weather = Weather(realtimeResponse)
+            val dailyResponse = deferredDaily.await()
+
+            if(realtimeResponse.status == "1" && dailyResponse.status == "1") {
+                val weather = Weather(realtimeResponse, dailyResponse)
                 Result.success(weather)
             } else {
                 Result.failure(RuntimeException(
-                    "realtime response status is ${realtimeResponse.status}"
+                    "realtime response status is ${realtimeResponse.status}" +
+                            "daily response status is ${dailyResponse.status}"
                 ))
             }
         }

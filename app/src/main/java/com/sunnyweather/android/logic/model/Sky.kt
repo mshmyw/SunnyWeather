@@ -36,7 +36,7 @@ fun getSky(skycon: String): Sky {
 fun getSkyByWeather(weather: String): Sky {
     val skyList = ArrayList(sky.values)
     for(sky in skyList) {
-        if(sky.info.contains(weather)) {
+        if(sky.info.contains(weather) || weather.contains(sky.info)) {
             return sky
         }
     }

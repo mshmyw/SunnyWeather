@@ -4,6 +4,8 @@ import android.annotation.SuppressLint
 import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
@@ -85,7 +87,7 @@ class WeatherActivity : AppCompatActivity() {
         val currentTemp = findViewById<TextView>(R.id.currentTemp)
         currentTemp.text = currentTempText
         val currentSky = findViewById<TextView>(R.id.currentSky)
-        // TODO
+
         val skycon = "CLEAR_DAY"
 //        currentSky.text = getSky(skycon).info
         currentSky.text = realtime.weather
@@ -95,7 +97,35 @@ class WeatherActivity : AppCompatActivity() {
         val currentHumidity = findViewById<TextView>(R.id.currentHumidity)
         currentHumidity.text = "湿度：${realtime.humidity}"
 
-        // TODO 未来几天的天气数据
+        // 未来几天的天气数据
+        Log.d("WeatherActivity", weather.toString())
+
+        val daily = weather.daily.forecasts[0].casts
+        val forecastLayout = findViewById<LinearLayout>(R.id.forecastLayout)
+        forecastLayout.removeAllViews()
+        val days = daily.size
+        for(i in 0 until days) {
+            val dayweather = daily[i].dayweather
+            val daytemp = daily[i].daytemp
+            val date = daily[i].date
+            val sky = getSkyByWeather(dayweather)
+
+            val view = LayoutInflater.from(this).inflate(R.layout.forecast_item,
+            forecastLayout, false)
+            val dateInfo = view.findViewById<TextView>(R.id.dateInfo)
+            val skyIcon = view.findViewById<ImageView>(R.id.skyIcon)
+            val skyInfo = view.findViewById<TextView>(R.id.skyInfo)
+            val temperatureInfo = view.findViewById<TextView>(R.id.temperatureInfo)
+
+            dateInfo.text = date
+            skyIcon.setImageResource(sky.icon)
+            skyInfo.text = dayweather
+            temperatureInfo.text = daytemp
+
+            forecastLayout.addView(view)
+        }
+
+        // TODO 生活指数
 
         val weatherLayout = findViewById<ScrollView>(R.id.weatherLayout)
         weatherLayout.visibility = View.VISIBLE
